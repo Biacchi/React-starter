@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# React-starter
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+My "hello React" playground: a Create React App project that runs inside Docker, so I never have to install Node on my machine to try something out. Currently it shows the default spinning logo with a few extra greeting lines I typed while checking that hot reload works. Very ambitious.
 
-## Available Scripts
+It is an early learning project and a handy template for starting new ones.
 
-In the project directory, you can run:
+## Running it
 
-### `npm start`
+With Docker (what I use):
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+docker-compose up --build
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Then open http://localhost:3000. The compose file mounts the project folder into the container, and `WATCHPACK_POLLING=true` makes file changes reload properly even on Windows.
 
-### `npm test`
+Without Docker (needs Node installed; the Dockerfile uses Node 18):
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm install
+npm start
+```
 
-### `npm run build`
+Other scripts from `package.json`: `npm test`, `npm run build`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## What is in here
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+src/                 App.js, index.js and the default CRA files, plus one App.test.js
+public/              index.html, icons, manifest
+Dockerfile           node:18-alpine, npm install, npm start
+docker-compose.yml   dev container with live reload on port 3000
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## What I learned
 
-### `npm run eject`
+- How a React app is bootstrapped and structured
+- Putting a dev server in a container with a bind mount and polling
+- The usual dance of keeping `node_modules` inside the container
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Known limitations
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- This is the stock Create React App setup (`react-scripts` 5), which is no longer actively maintained. `npm audit` reports a pile of known issues in its dependency tree; they are in the dev tooling, but I have not upgraded anything (see the PR for the numbers).
+- The Dockerfile only runs the dev server. There is no production build image.
+- `src/App.test.js` is the default test and probably does not match the current text on the page.
+- No LICENSE file yet, so by default all rights are reserved.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The original Create React App docs live at https://create-react-app.dev/.
